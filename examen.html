@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Copias</title>
+</head>
+<body>
+
+    <p>Cobro de copias</p>
+
+    <p>Número de copias:</p>
+    <input type="number" id="cantidad" value="1" min="1">
+    
+    <br><br>
+
+    <p>Tipo de copia:</p>
+    <select id="tipo">
+        <option value="bn">Blanco y negro</option>
+        <option value="color">Color</option>
+    </select>
+
+    <br><br>
+
+    <label>
+        <input type="checkbox" id="credencial">
+        ¿Tiene credencial de alumno? (25% de descuento)
+    </label>
+
+    <br><br>
+
+    <button onclick="calcular()">Calcular</button>
+
+    <br><br>
+
+    <p id="resultado"></p>
+
+    <script>
+        function calcular() {
+            var cantidad = parseInt(document.getElementById('cantidad').value);
+            var tipo = document.getElementById('tipo').value;
+            var tieneCredencial = document.getElementById('credencial').checked;
+            var resultado = document.getElementById('resultado');
+
+            if (isNaN(cantidad) || cantidad <= 0) {
+                resultado.textContent = 'Escriba un número de copias válido.';
+                return;
+            }
+
+            var precioPorCopia = 0;
+
+            if (cantidad >= 1 && cantidad <= 50) {
+                if (tipo === 'color') {
+                    precioPorCopia = 1.50;
+                } else {
+                    precioPorCopia = 1.00;
+                }
+            } else if (cantidad >= 51 && cantidad <= 100) {
+                if (tipo === 'color') {
+                    precioPorCopia = 1.30;
+                } else {
+                    precioPorCopia = 0.80;
+                }
+            } else if (cantidad > 100) {
+                if (tipo === 'color') {
+                    precioPorCopia = 1.00;
+                } else {
+                    precioPorCopia = 0.50;
+                }
+            }
+
+            var total = cantidad * precioPorCopia;
+
+            if (tieneCredencial) {
+                total = total * 0.75; // Se resta el 25%
+            }
+
+            resultado.textContent = 'Total a pagar: $' + total.toFixed(2);
+        }
+    </script>
+
+</body>
+</html>
